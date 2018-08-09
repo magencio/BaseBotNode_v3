@@ -1,0 +1,14 @@
+{
+    "MicrosoftAppId": "",
+    "MicrosoftAppPassword": "",
+
+    "COSMOSDB_host": "https://<<your cosmosDB>>.documents.azure.com:443/",
+    "COSMOSDB_key": "<<your cosmosDB key>>",
+
+    "LUIS_appId": "<<your LUIS app id>>",
+    "LUIS_apiKey": "<<your LUIS api key>>",
+    "LUIS_apiHostName": "https://<<your LUIS region>>.api.cognitive.microsoft.com/luis/v2.0/apps",
+
+    "BotDevAppInsightsKey": "<<your App Insights key>>",
+    "CG_SENTIMENT_KEY": "<< your Cognitive Services Text Analytics Key. This is optional>>"
+  }
