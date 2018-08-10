@@ -1,8 +1,8 @@
-import { LuisRecognizer, IntentDialog, Session, Message, ResumeReason, SuggestedActions, CardAction } from 'botbuilder';
+import { IntentRecognizer, IntentDialog, Session, Message, ResumeReason, SuggestedActions, CardAction } from 'botbuilder';
 
 export class NumberDialog extends IntentDialog {
-    constructor(luisRecognizer: LuisRecognizer) {
-        super({ recognizers: [luisRecognizer] });
+    constructor(recognizer: IntentRecognizer) {
+        super({ recognizers: [recognizer] });
         this.onBegin(this.onBeginDialog)
             .matches('Command.Cancel', this.onCancel)
             .onDefault(this.onAnythingElse);

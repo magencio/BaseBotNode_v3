@@ -1,7 +1,7 @@
 import { config }  from './config';
 import * as restify from 'restify';
 import * as path from 'path';
-import { ChatConnector, UniversalBot, LuisRecognizer } from 'botbuilder';
+import { ChatConnector, UniversalBot, IntentRecognizer, LuisRecognizer } from 'botbuilder';
 import { DocumentDbClient, AzureBotStorage } from 'botbuilder-azure';
 import * as logger from './services/logger';
 import { BotFrameworkInstrumentation } from 'botbuilder-instrumentation';
@@ -41,7 +41,7 @@ function createServer(connector: ChatConnector, bot: UniversalBot) : any {
     return server;
 }
 
-function createRecognizer() : LuisRecognizer {
+function createRecognizer() : IntentRecognizer {
     return new LuisRecognizer(
         config.get('LUIS_apiHostName') + '/' +
         config.get('LUIS_appId') + '?subscription-key=' +
@@ -55,7 +55,7 @@ function setupBotLocalization(bot: UniversalBot) {
     });
 }
 
-function setupBotInstrumentation(bot: UniversalBot, recognizer: LuisRecognizer) : BotFrameworkInstrumentation {
+function setupBotInstrumentation(bot: UniversalBot, recognizer: IntentRecognizer) : BotFrameworkInstrumentation {
     bot.use({
         botbuilder: logger.onMessageReceived,
         send: logger.onMessageSent
@@ -85,7 +85,7 @@ function setupBotStateStorage(bot: UniversalBot) {
     bot.set('storage', storage);
 }
 
-function setupBotDialogs(bot: UniversalBot, recognizer: LuisRecognizer, instrumentation: BotFrameworkInstrumentation) {
+function setupBotDialogs(bot: UniversalBot, recognizer: IntentRecognizer, instrumentation: BotFrameworkInstrumentation) {
     bot.dialog('/', new RootDialog(recognizer, instrumentation));
     bot.dialog('prompt.confirmation', new ConfirmationDialog(recognizer));
     bot.dialog('prompt.number', new NumberDialog(recognizer));

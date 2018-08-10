@@ -1,9 +1,9 @@
-import { LuisRecognizer, IntentDialog, Session, Message, ResumeReason, SuggestedActions, CardAction } from 'botbuilder';
+import { IntentRecognizer, IntentDialog, Session, Message, ResumeReason, SuggestedActions, CardAction } from 'botbuilder';
 
 export class ConfirmationDialog extends IntentDialog {
 
-    constructor(luisRecognizer: LuisRecognizer) {
-        super({ recognizers: [luisRecognizer] });
+    constructor(recognizer: IntentRecognizer) {
+        super({ recognizers: [recognizer] });
         this.onBegin(this.onBeginDialog)
             .matches('Confirmation.Yes', this.onYes)
             .matches('Confirmation.No', this.onNo)

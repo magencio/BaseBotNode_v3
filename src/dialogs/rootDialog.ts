@@ -1,11 +1,11 @@
-import { Session, LuisRecognizer, IntentDialog, IDialogWaterfallStep, IIntentRecognizerResult, IDialogResult, Prompts } from 'botbuilder';
+import { Session, IntentDialog, IDialogWaterfallStep, IntentRecognizer, IIntentRecognizerResult, IDialogResult, Prompts, ResumeReason } from 'botbuilder';
 import { BotFrameworkInstrumentation } from 'botbuilder-instrumentation';
 
 export class RootDialog extends IntentDialog {
     private instrumentation: BotFrameworkInstrumentation;
 
-    constructor(luisRecognizer: LuisRecognizer, instrumentation: BotFrameworkInstrumentation) {
-        super({ recognizers: [luisRecognizer] });
+    constructor(recognizer: IntentRecognizer, instrumentation: BotFrameworkInstrumentation) {
+        super({ recognizers: [recognizer] });
         this.instrumentation = instrumentation;
         this.matches('Education.Hi', this.onHi)
             .matches('Education.Thx', this.onThx)
@@ -26,13 +26,14 @@ export class RootDialog extends IntentDialog {
             session.beginDialog('prompt.confirmation', 'Before you leave, did I help you?');
         },
         (session: Session, results: IDialogResult<boolean>) => {
-            switch (results.response) {
-                case true:
+            if (results.resumed === ResumeReason.completed) {
+                if (results.response) {
                     session.send('Great to hear that!');
-                    break;
-                default:
+                } else {
                     Prompts.text(session, "Sorry to hear that. Please, tell me how I can improve");
-                    break;
+                }
+            } else {
+                session.send('Sure thing');
             }
         },
         (session: Session, results: IDialogResult<boolean>) => {
@@ -41,8 +42,8 @@ export class RootDialog extends IntentDialog {
         }
     ];
 
-    private onUnknown = (session: Session, luisResults: IIntentRecognizerResult) => {
-        this.instrumentation.trackCustomEvent('MBFEvent.CustomEvent.Unknown', { text: session.message.text, luisResults: luisResults }, session);
+    private onUnknown = (session: Session, recognizerResults: IIntentRecognizerResult) => {
+        this.instrumentation.trackCustomEvent('MBFEvent.CustomEvent.Unknown', { text: session.message.text, recognizerResults: recognizerResults }, session);
         session.send("Sorry, I didn't get that. I'm still learning!");
     }
 }
