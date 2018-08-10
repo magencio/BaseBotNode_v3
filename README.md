@@ -9,6 +9,8 @@ A sample project that can be used as a base to create bots.
 - It supports [localization](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-localization).
 - Thanks to Bot Connector we should be able to connect the bot to many channels like Skype, Telegram, Facebook Messenger, Web Chat (to embed the chatbot in any web site), Direct Line (to create our own chatbot client), etc. We can configure this with Bot Service in the Azure portal.
 
+*You can find more complete samples using LUIS and Bot Framework v3 for Node.js & TypeScript here: [TraktBotNode_V3](https://github.com/magencio/TraktBotNode_V3) & [UberBotNode_V3](https://github.com/magencio/UberBotNode_V3)*
+
 ## Try the bot locally
 Rename dev.sample.json to dev.private.json and modify it with your own settings. 
 
